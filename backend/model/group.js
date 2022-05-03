@@ -1,66 +1,79 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const memberSchema = Schema({
+/* const memberSchema = Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: "user",
   },
   role: {
-    type: String
-  }
-})
+    type: String,
+  },
+});
 
 const participantSchema = Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: "user",
   },
   message: {
-    type: String
-  }
-})
+    type: String,
+  },
+});
 
 const eventSchema = mongoose.Schema({
   title: {
-    type: String
+    type: String,
   },
   description: {
-    type: String
+    type: String,
   },
   place: {
-    type: String
+    type: String,
   },
   date: {
     type: Date,
   },
   participants: {
-    type: [participantSchema]
-  }
+    type: [participantSchema],
+  },
 });
 
-const groupSchema = Schema({
+ const groupSchema = Schema({
   name: {
-    type: String
+    type: String,
   },
   description: {
-    type: String
+    type: String,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: "user",
   },
   members: {
-    type: [memberSchema]
+    type: [memberSchema],
   },
   events: {
-    type: [eventSchema]
-  }
-})
+    type: [eventSchema],
+  },
+}); 
+
 
 const Member = mongoose.model("Member", memberSchema);
 const Participant = mongoose.model("Participant", participantSchema);
 const Event = mongoose.model("Event", eventSchema);
 const Group = mongoose.model("Group", groupSchema);
 
-module.exports = { Member: Member, Participant: Participant, Event: Event, Group: Group }
+module.exports = { Member: Member, Participant: Participant, Event: Event, Group: Group } */
+
+const groupSchema = Schema({
+  name: String,
+  description: String,
+  owner: String,
+  members: [{ id: String, role: String }],
+  events: [{ name: String, venue: String, participants: [{ id: String }] }],
+});
+
+const Group = mongoose.model("Group", groupSchema);
+
+module.exports = Group;

@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const User = require("../model/user");
+const Group = require("../model/group");
 
 // for registration and reset routes:
 const sendEmail = async (token, user, type) => {
@@ -69,9 +70,43 @@ const confirmUser = async (username) => {
   }
 };
 
+//for group route:
+const storeGroupData = async (id, name, description) => {
+  try {
+    Group.create({
+      name: name,
+      description: description,
+      members: [{ id: id, role: "owner" }],
+    });
+    return 200;
+  } catch (err) {
+    return 400;
+  }
+};
+//for group route:
+const getGrouplist = async (id) => {
+  const groupList = [];
+  const groups = await Group.find();
+  const setStatus = (members, id) => {
+    const status = members.find((member) => member.id === id);
+    return status ? status.role : "pending";
+  };
+  for (const group of groups) {
+    groupList.push({
+      id: group.id,
+      name: group.name,
+      status: setStatus(group.members, id),
+    });
+  }
+  console.log("GROUPLIST: ", groupList);
+  return groupList;
+};
+
 module.exports = {
   sendEmail,
   checkAlreadyRegistered,
   storeUserData,
   confirmUser,
+  storeGroupData,
+  getGrouplist,
 };

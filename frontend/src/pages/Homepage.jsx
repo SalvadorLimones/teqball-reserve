@@ -17,9 +17,11 @@ const Homepage = () => {
   const renderPublicPage = async () => {
     const res = await publicPage();
     setbackendResponse(res.data);
+    console.log(res.data);
   };
   const renderPrivatePage = async () => {
     const res = await privatePage();
+    console.log(res.data);
     setbackendResponse(res.data);
   };
 
