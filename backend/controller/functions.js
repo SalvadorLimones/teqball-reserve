@@ -4,18 +4,21 @@ const Group = require("../model/group");
 
 // for registration and reset routes:
 const sendEmail = async (token, user, type) => {
-  const confirmationLink = `http://localhost:3000/${type}?code=${token}&user=${user.username}`;
-  const emailSubject =
+  console.log(token, user, type);
+  let confirmationLink = `http://localhost:3000/${type}?code=${token}&user=${user.username}`;
+  let emailSubject =
     type === "confirm"
       ? "Your registration confirmation email ✔"
       : "Your password change email ✔";
-  const emailText =
+  let emailText =
     type === "confirm"
       ? "click to confirm your registration"
       : "click here to change your password";
+  console.log("NODEMAILER ELŐTT");
 
   let testAccount = await nodemailer.createTestAccount();
 
+  console.log("CHECK REG!!!!");
   let transporter = nodemailer.createTransport({
     host: "smtp.ethereal.email",
     port: 587,

@@ -5,7 +5,7 @@ export const publicPage = async () => {
   const token = localStorage.getItem("token");
   try {
     const resp = await axios.post("http://localhost:5000/api/group/create", {
-      name: "TEK-ball Group",
+      name: "dfsdsfsdfdsf",
       description: "usege of grenades instead of a football is mandatory!",
       token: token,
     });

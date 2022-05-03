@@ -69,7 +69,6 @@ module.exports = { Member: Member, Participant: Participant, Event: Event, Group
 const groupSchema = Schema({
   name: String,
   description: String,
-  owner: String,
   members: [{ id: String, role: String }],
   events: [{ name: String, venue: String, participants: [{ id: String }] }],
 });
