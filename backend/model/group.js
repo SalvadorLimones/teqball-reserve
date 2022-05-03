@@ -70,7 +70,9 @@ const groupSchema = Schema({
   name: String,
   description: String,
   members: [{ id: String, role: String }],
-  events: [{ name: String, venue: String, participants: [{ id: String }] }],
+  events: [
+    { name: String, venue: String, date: Date, participants: [{ id: String }] },
+  ],
 });
 
 const Group = mongoose.model("Group", groupSchema);
