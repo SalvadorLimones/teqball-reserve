@@ -21,7 +21,7 @@ const ListGroup = () => {
           <div key={i}>
             Group:{group.name} Your status:{group.status} {group.status === 'stranger' && <button onClick={() => joinGroup(group.id)}>JOIN</button>} 
             {
-              (group.status === 'member' || group.status === 'admin') && <button onClick={() => leaveGroup(group.id)}>LEAVE</button>
+              (group.status === 'member' || group.status === 'admin' || group.status === 'pending') && <button onClick={() => leaveGroup(group.id)}>LEAVE</button>
             }
           </div>
         ))}
