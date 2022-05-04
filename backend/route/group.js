@@ -6,6 +6,8 @@ const {
   getGrouplist,
   addNewMember,
   removeMember,
+  checkEligible,
+  acceptOrRefuse,
 } = require("../controller/functions");
 
 //Create a new group:
@@ -41,6 +43,7 @@ router.post("/join", async (req, res) => {
     res.sendStatus(err);
   }
 });
+
 //Leave a group:
 router.post("/leave", async (req, res) => {
   const { token, groupId } = req.body;
@@ -55,7 +58,43 @@ router.post("/leave", async (req, res) => {
   }
 });
 
-//Get list of all groups and users status information/group:
+//Accept join request:
+router.post("/accept", async (req, res) => {
+  const { token, groupId, userId } = req.body;
+  if (!(token && groupId && userId)) return res.sendStatus(400);
+
+  try {
+    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+
+    const isEligible = await checkEligible(decoded, groupId, "accept");
+    if (!isEligible) return res.sendStatus(401);
+
+    const userAccepted = await acceptOrRefuse(groupId, userId, "accept");
+    return userAccepted ? res.sendStatus(200) : res.sendStatus(500);
+  } catch (err) {
+    res.sendStatus(err);
+  }
+});
+
+//Refuse join request:
+router.post("/refuse", async (req, res) => {
+  const { token, groupId, userId } = req.body;
+  if (!(token && groupId && userId)) return res.sendStatus(400);
+
+  try {
+    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+
+    const isEligible = await checkEligible(decoded, groupId, "refuse");
+    if (!isEligible) return res.sendStatus(401);
+
+    const userRefused = await acceptOrRefuse(groupId, userId, "refuse");
+    return userRefused ? res.sendStatus(200) : res.sendStatus(500);
+  } catch (err) {
+    res.sendStatus(err);
+  }
+});
+
+//Get list of all groups and user's status information/group:
 router.get("/list", async (req, res) => {
   const { token } = req.headers;
   if (!token) return res.sendStatus(400);
