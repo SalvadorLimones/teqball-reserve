@@ -1,10 +1,9 @@
-// const Event = require("../model/Group");
-require("../controller/functions");
+const Group = require("../model/group");
+// require("../controller/functions");
 
 const findGroupById = async (id) => {
   try {
-    console.log(id);
-    const existingGroup = await Group.findById(option);
+    const existingGroup = await Group.findById(id);
     return existingGroup;
   } catch (error) {
     console.log(`Could not find group ${error}`)
@@ -12,14 +11,22 @@ const findGroupById = async (id) => {
 }
 
 const saveEvent = async (eventdata) => {
+  const { name, venue, date } = eventdata;
+  console.log(name, venue, date);
   try {
-    // const event = new Group(groupdata);
-    // const newGroup = await group.save();  
-    // return newGroup;
-    console.log(eventData);
+    const event = await Group.findByIdAndUpdate(eventdata.group_id, 
+      { $push: {
+        events: {
+          name: name,
+          venue: venue,
+          date: date
+        }
+      }});
+    return event;
   } catch (error) {
     console.log(`Could not save event ${error}`)
   }
+  return true;
 }
 
 module.exports = { findGroupById, saveEvent }
