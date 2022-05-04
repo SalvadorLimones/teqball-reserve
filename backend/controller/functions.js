@@ -172,6 +172,14 @@ const checkEligible = async (user, groupId, deed) => {
     (isMember.role === "owner" || isMember.role === "admin")
   )
     return true;
+  if (
+    deed === "users" &&
+    (isMember.role === "owner" ||
+      isMember.role === "admin" ||
+      isMember.role === "member")
+  )
+    return true;
+
   if (deed === "change" && isMember.role === "owner") return true;
 
   return false;
@@ -203,6 +211,10 @@ const acceptOrRefuse = async (groupId, userId, deed) => {
   return false;
 };
 
+//for group route:
+const getMembersList = async (groupId) =>
+  await Group.findOne({ _id: groupId }).select("members");
+
 module.exports = {
   sendEmail,
   checkAlreadyRegistered,
@@ -214,4 +226,5 @@ module.exports = {
   removeMember,
   checkEligible,
   acceptOrRefuse,
+  getMembersList,
 };
