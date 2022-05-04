@@ -2,7 +2,8 @@ const axios = require("axios");
 
 export const listGroups = async () => {
     const token = localStorage.getItem("token");
-    if (!token) console.log('please sign in first!')
+    if (!token) window.alert("Please log in first");
+
     if (token) {
         // const requestBody = { name: name, description: description, token: token };
         try { 
