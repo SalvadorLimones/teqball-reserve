@@ -4,7 +4,6 @@ const Group = require("../model/group");
 
 // for registration and reset routes:
 const sendEmail = async (token, user, type) => {
-  console.log(token, user, type);
   let confirmationLink = `http://localhost:3000/${type}?code=${token}&user=${user.username}`;
   let emailSubject =
     type === "confirm"
@@ -14,11 +13,9 @@ const sendEmail = async (token, user, type) => {
     type === "confirm"
       ? "click to confirm your registration"
       : "click here to change your password";
-  console.log("NODEMAILER ELŐTT");
 
   let testAccount = await nodemailer.createTestAccount();
 
-  console.log("CHECK REG!!!!");
   let transporter = nodemailer.createTransport({
     host: "smtp.ethereal.email",
     port: 587,
@@ -47,8 +44,7 @@ const sendEmail = async (token, user, type) => {
 const checkAlreadyRegistered = async (username, email) => {
   const usernameTaken = await User.countDocuments({ username: username });
   const emailTaken = await User.countDocuments({ email: email });
-  console.log("username: ", usernameTaken);
-  console.log("email: ", emailTaken);
+
   return usernameTaken || emailTaken;
 };
 
@@ -153,18 +149,23 @@ const getGrouplist = async (id) => {
       status: setStatus(group.members, id),
     });
   }
-  console.log("GROUPLIST: ", groupList);
+
   return groupList;
 };
 
 //for group route:
-const checkEligible = async (user, groupId, deed) => {
+const checkEligible = async (user, groupId, deed, newStatus) => {
+  console.log("USER: ", user);
+  console.log("groupId: ", groupId);
+  console.log("DEED: ", deed);
+  console.log("newStatus: ", newStatus);
   const group = await Group.findOne({ _id: groupId });
   if (!group) return false;
 
   const isMember = group.members.find(
     (member) => member.member_id === user.user_id
   );
+
   if (!isMember) return false;
 
   if (
@@ -180,13 +181,18 @@ const checkEligible = async (user, groupId, deed) => {
   )
     return true;
 
-  if (deed === "change" && isMember.role === "owner") return true;
+  if (
+    deed === "change" &&
+    isMember.role === "owner" &&
+    (newStatus === "admin" || newStatus === "member" || newStatus === "banned")
+  )
+    return true;
 
   return false;
 };
 
 //for group route:
-const acceptOrRefuse = async (groupId, userId, deed) => {
+const acceptOrRefuse = async (groupId, userId, deed, newStatus) => {
   const group = await Group.findOne({ _id: groupId });
   if (!group) return false;
 
@@ -196,14 +202,29 @@ const acceptOrRefuse = async (groupId, userId, deed) => {
         member.role = "member";
       }
     });
-    console.log(group);
     group.save();
     return true;
   }
+
   if (deed === "refuse") {
     group.members = group.members.filter(
       (member) => member.member_id !== userId
     );
+    group.save();
+    return true;
+  }
+
+  if (deed === "change") {
+    group.members.map((member) => {
+      if (
+        member.member_id === userId &&
+        (member.role === "admin" ||
+          member.role === "member" ||
+          member.role === "banned")
+      ) {
+        member.role = `${newStatus}`;
+      }
+    });
     group.save();
     return true;
   }
