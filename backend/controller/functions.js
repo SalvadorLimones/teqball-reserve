@@ -74,25 +74,77 @@ const confirmUser = async (username) => {
 };
 
 //for group route:
-const storeGroupData = async (id, name, description) => {
+const storeGroupData = async (user, name, description) => {
   try {
     Group.create({
       name: name,
       description: description,
-      members: [{ id: id, role: "owner" }],
+      members: [
+        {
+          member_id: user.user_id,
+          member_name: user.username,
+          role: "owner",
+        },
+      ],
     });
     return 200;
   } catch (err) {
     return 400;
   }
 };
+
+//for group route:
+const addNewMember = async (user, groupId) => {
+  try {
+    const group = await Group.findOne({ _id: groupId });
+    if (!group) return 409;
+
+    const isMember = group.members.find(
+      (member) => member.member_id === user.user_id
+    );
+    if (isMember) return 409;
+
+    group.members.push({
+      member_id: user.user_id,
+      member_name: user.username,
+      role: "pending",
+    });
+    group.save();
+    return 200;
+  } catch (err) {
+    return 400;
+  }
+};
+
+//for group route:
+const removeMember = async (user, groupId) => {
+  try {
+    const group = await Group.findOne({ _id: groupId });
+    if (!group) return 409;
+
+    const isMember = group.members.find(
+      (member) => member.member_id === user.user_id
+    );
+    if (!(isMember && isMember.role !== "banned" && isMember.role !== "owner"))
+      return 409;
+
+    group.members = group.members.filter(
+      (member) => member.member_id !== user.user_id
+    );
+    group.save();
+    return 200;
+  } catch (err) {
+    return 400;
+  }
+};
+
 //for group route:
 const getGrouplist = async (id) => {
   const groupList = [];
   const groups = await Group.find();
   const setStatus = (members, id) => {
-    const status = members.find((member) => member.id === id);
-    return status ? status.role : "pending";
+    const status = members.find((member) => member.member_id === id);
+    return status ? status.role : "stranger";
   };
   for (const group of groups) {
     groupList.push({
@@ -105,6 +157,60 @@ const getGrouplist = async (id) => {
   return groupList;
 };
 
+//for group route:
+const checkEligible = async (user, groupId, deed) => {
+  const group = await Group.findOne({ _id: groupId });
+  if (!group) return false;
+
+  const isMember = group.members.find(
+    (member) => member.member_id === user.user_id
+  );
+  if (!isMember) return false;
+
+  if (
+    (deed === "accept" || deed === "refuse") &&
+    (isMember.role === "owner" || isMember.role === "admin")
+  )
+    return true;
+  if (
+    deed === "users" &&
+    (isMember.role === "owner" ||
+      isMember.role === "admin" ||
+      isMember.role === "member")
+  )
+    return true;
+
+  if (deed === "change" && isMember.role === "owner") return true;
+
+  return false;
+};
+
+//for group route:
+const acceptOrRefuse = async (groupId, userId, deed) => {
+  const group = await Group.findOne({ _id: groupId });
+  if (!group) return false;
+
+  if (deed === "accept") {
+    group.members.map((member) => {
+      if (member.member_id === userId && member.role === "pending") {
+        member.role = "member";
+      }
+    });
+    console.log(group);
+    group.save();
+    return true;
+  }
+  if (deed === "refuse") {
+    group.members = group.members.filter(
+      (member) => member.member_id !== userId
+    );
+    group.save();
+    return true;
+  }
+
+  return false;
+};
+
 module.exports = {
   sendEmail,
   checkAlreadyRegistered,
@@ -112,4 +218,8 @@ module.exports = {
   confirmUser,
   storeGroupData,
   getGrouplist,
+  addNewMember,
+  removeMember,
+  checkEligible,
+  acceptOrRefuse,
 };

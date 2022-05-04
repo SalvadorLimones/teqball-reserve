@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const groupSchema = new mongoose.Schema({
   name: String,
   description: String,
-  members: [{ id: String, role: String }],
+  members: [{ member_id: String, member_name: String, role: String }],
   events: [
     { name: String, venue: String, date: Date, participants: [{ id: String }] },
   ],
