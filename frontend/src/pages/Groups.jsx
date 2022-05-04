@@ -1,14 +1,16 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import CreateGroup from '../components/CreateGroup'
-import GroupList from '../components/GroupList'
+import ListGroups from '../components/ListGroups'
 
 const Groups = () => {
   return (
     <div>
         <Navbar />
-        <CreateGroup />
-        <GroupList />
+        <div className='group-actions'>
+          <CreateGroup />
+          <ListGroups />
+        </div>
     </div>
   )
 }
