@@ -17,11 +17,11 @@ export const createGroup = async (name, description, setMessage) => {
     }
 };
 
-export const joinGroup = async (groupID) => {
+export const joinGroup = async (groupId) => {
     const token = localStorage.getItem("token");
     if (!token) console.log('please sign in first!');
     if (token) {
-        const requestBody = { groupID: groupID, token: token };
+        const requestBody = { token: token, groupId: groupId };
         try { 
             const response = await axios.post("http://localhost:5000/api/group/join", requestBody);
             return response;
