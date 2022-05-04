@@ -5,7 +5,6 @@ export const listGroups = async () => {
     if (!token) window.alert("Please log in first");
 
     if (token) {
-        // const requestBody = { name: name, description: description, token: token };
         try { 
             const response = await axios.get("http://localhost:5000/api/group/list", {
                 headers: { token: token },
