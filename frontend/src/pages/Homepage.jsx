@@ -21,7 +21,7 @@ const Homepage = () => {
   };
   const renderPrivatePage = async () => {
     const res = await privatePage();
-    console.log(res.data);
+    console.log(res);
     setbackendResponse(res.data);
   };
 
