@@ -189,7 +189,7 @@ const acceptOrRefuse = async (groupId, userId, deed) => {
       }
     });
     console.log(group);
-    //group.save();
+    group.save();
     return true;
   }
   if (deed === "refuse") {
