@@ -88,3 +88,13 @@
   border-radius: 5px;
   background: #f8f8f8;
 }
+
+.ListGroup div {
+  margin: 10px;
+  color: black;
+}
+
+.groups {
+  display: flex;
+  justify-content: space-evenly;
+}
