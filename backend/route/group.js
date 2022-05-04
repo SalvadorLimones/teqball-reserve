@@ -8,7 +8,6 @@ const {
   removeMember,
   checkEligible,
   acceptOrRefuse,
-  getMembersList,
 } = require("../controller/functions");
 
 //Create a new group:
@@ -105,7 +104,7 @@ router.post("/users", async (req, res) => {
 
     const isEligible = await checkEligible(decoded, groupId, "users");
     if (!isEligible) return res.sendStatus(401);
-    const membersList = await getMembersList(groupId);
+    const membersList = Group.findOne({ _id: groupId }).select("members");
     return res.send(membersList.members);
   } catch (err) {
     res.sendStatus(err);

@@ -211,10 +211,6 @@ const acceptOrRefuse = async (groupId, userId, deed) => {
   return false;
 };
 
-//for group route:
-const getMembersList = async (groupId) =>
-  await Group.findOne({ _id: groupId }).select("members");
-
 module.exports = {
   sendEmail,
   checkAlreadyRegistered,
@@ -226,5 +222,4 @@ module.exports = {
   removeMember,
   checkEligible,
   acceptOrRefuse,
-  getMembersList,
 };
