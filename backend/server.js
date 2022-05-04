@@ -6,8 +6,6 @@ const cors = require("cors");
 const app = express();
 const port = 5000;
 
-const publicRouts = require("./route/public");
-const privateRouts = require("./route/private");
 const registrationRouts = require("./route/registration");
 const registrationConfirmRouts = require("./route/registrationConfirm");
 const loginRouts = require("./route/login");
@@ -25,8 +23,7 @@ mongoose.connection.once("open", function () {
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/public", publicRouts);
-app.use("/api/private", privateRouts);
+
 app.use("/api/registration", registrationRouts);
 app.use("/api/confirm", registrationConfirmRouts);
 app.use("/api/login", loginRouts);
