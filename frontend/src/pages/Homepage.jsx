@@ -3,7 +3,7 @@ import { publicPage, privatePage } from "../api/renderPrivatePublic";
 import Navbar from "../components/Navbar";
 import jwt_decode from "jwt-decode";
 
-import CreateGroup from "./CreateGroup";
+import CreateGroup from "../components/CreateGroup";
 import ListGroup from "./ListGroups";
 
 const Homepage = () => {
