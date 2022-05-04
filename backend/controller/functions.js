@@ -91,6 +91,10 @@ const addNewMember = async (userId, groupId) => {
   try {
     const group = await Group.findOne({ _id: groupId });
     if (!group) return 409;
+
+    const alreadyMember = group.members.find((member) => member.id === userId);
+    if (alreadyMember) return 409;
+
     group.members.push({ id: userId, role: "pending" });
     group.save();
     return 200;
@@ -105,7 +109,7 @@ const getGrouplist = async (id) => {
   const groups = await Group.find();
   const setStatus = (members, id) => {
     const status = members.find((member) => member.id === id);
-    return status ? status.role : "";
+    return status ? status.role : "stranger";
   };
   for (const group of groups) {
     groupList.push({
