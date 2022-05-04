@@ -172,6 +172,14 @@ const checkEligible = async (user, groupId, deed) => {
     (isMember.role === "owner" || isMember.role === "admin")
   )
     return true;
+  if (
+    deed === "users" &&
+    (isMember.role === "owner" ||
+      isMember.role === "admin" ||
+      isMember.role === "member")
+  )
+    return true;
+
   if (deed === "change" && isMember.role === "owner") return true;
 
   return false;

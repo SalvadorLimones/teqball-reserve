@@ -94,6 +94,23 @@ router.post("/refuse", async (req, res) => {
   }
 });
 
+//Get list of members of a given group:
+router.post("/users", async (req, res) => {
+  const { token, groupId } = req.body;
+  if (!(token && groupId)) return res.sendStatus(400);
+
+  try {
+    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+
+    const isEligible = await checkEligible(decoded, groupId, "users");
+    if (!isEligible) return res.sendStatus(401);
+    const membersList = Group.findOne({ _id: groupId }).select("members");
+    return res.send(membersList.members);
+  } catch (err) {
+    res.sendStatus(err);
+  }
+});
+
 //Get list of all groups and user's status information/group:
 router.get("/list", async (req, res) => {
   const { token } = req.headers;
