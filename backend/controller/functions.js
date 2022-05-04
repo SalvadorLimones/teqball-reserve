@@ -87,12 +87,25 @@ const storeGroupData = async (id, name, description) => {
   }
 };
 //for group route:
+const addNewMember = async (userId, groupId) => {
+  try {
+    const group = await Group.findOne({ _id: groupId });
+    if (!group) return 409;
+    group.members.push({ id: userId, role: "pending" });
+    group.save();
+    return 200;
+  } catch (err) {
+    return 400;
+  }
+};
+
+//for group route:
 const getGrouplist = async (id) => {
   const groupList = [];
   const groups = await Group.find();
   const setStatus = (members, id) => {
     const status = members.find((member) => member.id === id);
-    return status ? status.role : "pending";
+    return status ? status.role : "";
   };
   for (const group of groups) {
     groupList.push({
@@ -112,4 +125,5 @@ module.exports = {
   confirmUser,
   storeGroupData,
   getGrouplist,
+  addNewMember,
 };

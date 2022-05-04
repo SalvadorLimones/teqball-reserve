@@ -1,8 +1,13 @@
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const Group = require("../model/group");
-const { storeGroupData, getGrouplist } = require("../controller/functions");
+const {
+  storeGroupData,
+  getGrouplist,
+  addNewMember,
+} = require("../controller/functions");
 
+//Create a new group:
 router.post("/create", async (req, res) => {
   const { name, description, token } = req.body;
   if (!(name && description, token)) return res.sendStatus(400);
@@ -23,6 +28,21 @@ router.post("/create", async (req, res) => {
   }
 });
 
+//Join an existing group:
+router.post("/join", async (req, res) => {
+  const { token, groupId } = req.body;
+  if (!(token && groupId)) return res.sendStatus(400);
+
+  try {
+    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+    const status = await addNewMember(decoded.user_id, groupId);
+    res.sendStatus(status);
+  } catch (err) {
+    res.sendStatus(err);
+  }
+});
+
+//Get list of all groups and users status information/group:
 router.get("/list", async (req, res) => {
   const { token } = req.headers;
   if (!token) return res.sendStatus(400);
