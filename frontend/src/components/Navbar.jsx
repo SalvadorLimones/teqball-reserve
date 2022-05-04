@@ -28,6 +28,13 @@ const Navbar = () => {
           <p>REGISTER</p>
         </div>
       </Link>
+      {loggedin &&
+        <Link to="/groups" className="navbar-btn">
+          <div className="navbar-btn">
+            <p>GROUPS</p>
+          </div>
+        </Link>
+      }
       {!loggedin ? (
         <Link to="/login" className="navbar-btn">
           <div className="navbar-btn">
