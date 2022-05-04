@@ -61,14 +61,16 @@ router.post("/leave", async (req, res) => {
 //Accept join request:
 router.post("/accept", async (req, res) => {
   const { token, groupId, userId } = req.body;
+
   if (!(token && groupId && userId)) return res.sendStatus(400);
 
   try {
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
 
     const isEligible = await checkEligible(decoded, groupId, "accept");
+    console.log(isEligible);
     if (!isEligible) return res.sendStatus(401);
-
+    console.log("EDDIG JÓ!!!!!!!!!!!!!!!!");
     const userAccepted = await acceptOrRefuse(groupId, userId, "accept");
     return userAccepted ? res.sendStatus(200) : res.sendStatus(500);
   } catch (err) {
@@ -84,10 +86,10 @@ router.post("/refuse", async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
 
-    const isEligible = await checkEligible(decoded, groupId, "refuse");
+    const isEligible = await checkEligible(decoded, groupId, "refuse", _);
     if (!isEligible) return res.sendStatus(401);
 
-    const userRefused = await acceptOrRefuse(groupId, userId, "refuse");
+    const userRefused = await acceptOrRefuse(groupId, userId, "refuse", _);
     return userRefused ? res.sendStatus(200) : res.sendStatus(500);
   } catch (err) {
     res.sendStatus(err);
@@ -104,8 +106,36 @@ router.post("/users", async (req, res) => {
 
     const isEligible = await checkEligible(decoded, groupId, "users");
     if (!isEligible) return res.sendStatus(401);
-    const membersList = Group.findOne({ _id: groupId }).select("members");
+    const membersList = await Group.findOne({ _id: groupId }).select("members");
     return res.send(membersList.members);
+  } catch (err) {
+    res.sendStatus(err);
+  }
+});
+
+//Change status of a group member:
+router.post("/change-status", async (req, res) => {
+  const { token, groupId, userId, newStatus } = req.body;
+
+  if (!(token && groupId && userId && newStatus)) return res.sendStatus(400);
+
+  try {
+    const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+
+    const isEligible = await checkEligible(
+      decoded,
+      groupId,
+      "change",
+      newStatus
+    );
+    if (!isEligible) return res.sendStatus(401);
+    const statusChanged = await acceptOrRefuse(
+      groupId,
+      userId,
+      "change",
+      newStatus
+    );
+    return statusChanged ? res.sendStatus(200) : res.sendStatus(500);
   } catch (err) {
     res.sendStatus(err);
   }
