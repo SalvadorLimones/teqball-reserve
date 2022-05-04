@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { listGroups } from "../api/listGroups";
 import { joinGroup } from "../api/groupActions";
+import { leaveGroup } from "../api/groupActions";
 
 const ListGroup = () => {
   const [groupResponse, setGroupResponse] = useState(null);
@@ -18,7 +19,10 @@ const ListGroup = () => {
       {groupResponse &&
         groupResponse.map((group, i) => (
           <div key={i}>
-            Group:{group.name} Your status:{group.status} {group.status === 'stranger' && <button onClick={() => joinGroup(group.id)}>JOIN</button>}
+            Group:{group.name} Your status:{group.status} {group.status === 'stranger' && <button onClick={() => joinGroup(group.id)}>JOIN</button>} 
+            {
+              (group.status === 'member' || group.status === 'admin') && <button onClick={() => leaveGroup(group.id)}>LEAVE</button>
+            }
           </div>
         ))}
     </div>

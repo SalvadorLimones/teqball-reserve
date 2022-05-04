@@ -32,3 +32,18 @@ export const joinGroup = async (groupId) => {
     }
 };
 
+export const leaveGroup = async (groupId) => {
+    const token = localStorage.getItem("token");
+    if (!token) console.log('please sign in first!');
+    if (token) {
+        const requestBody = { token: token, groupId: groupId };
+        try { 
+            const response = await axios.post("http://localhost:5000/api/group/leave", requestBody);
+            return response;
+        } catch (error) {
+            console.log('something has gone wrong! ', error);
+            return error;
+        }
+    }
+};
+
