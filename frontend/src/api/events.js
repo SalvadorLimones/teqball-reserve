@@ -10,6 +10,7 @@ export const listEvents = async (userId, groupId, eventId) => {
             const response = await axios.get("http://localhost:5000/api/event/list", {
                 requestBody
               })
+              console.log(response)
             return response;
         } catch (error) {
             console.log('something has gone wrong! ', error);
