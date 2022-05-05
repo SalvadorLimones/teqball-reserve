@@ -112,3 +112,19 @@ export const refuseUser = async (groupId, userId) => {
     }
   }
 };
+
+export const changeStatus = async (groupId, userId, newStatus) => {
+    const token = localStorage.getItem("token");
+    if (!token) window.alert('Please sign in first!');
+    if (token && groupId && userId) {
+        const requestBody = { token: token, groupId: groupId, userId: userId, newStatus: newStatus };
+        try { 
+            const response = await axios.post("http://localhost:5000/api/group/change-status", requestBody);
+            console.log(response.data);
+            return response;
+        } catch (error) {
+            console.log("something has gone wrong showing group member's status! ", error);
+            return error;
+        }
+    }
+}
