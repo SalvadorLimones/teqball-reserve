@@ -87,7 +87,7 @@ const GroupDetails = ({ group, reload }) => {
         </div>
       )}
       <div>
-        <Events />
+        <Events group_id={group.id} />
       </div>
     </div>
   );
