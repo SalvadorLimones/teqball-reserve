@@ -56,6 +56,7 @@ const GroupDetails = ({ group, reload }) => {
   return (
     <div className="GroupDetails">
       <h2>{group.name}</h2>
+      <h3>{group.description}</h3>
       <p>Your role in this group: {group.status}</p>
       {group.status === "stranger" && (
         <button onClick={() => handleJoin()}>JOIN</button>
