@@ -20,13 +20,13 @@ const GroupDetails = ({ group, reload }) => {
   const handleAccept = (memberId) => {
     console.log("accepting join request");
     acceptUser(group.id, memberId);
-    // handleGetMembers(group.id);
+    handleGetMembers(group.id);
   };
 
   const handleReject = (memberId) => {
     console.log("rejecting join request");
     refuseUser(group.id, memberId);
-    // handleGetMembers(group.id);
+    handleGetMembers(group.id);
   };
 
   const handleJoin = async () => {
@@ -42,10 +42,8 @@ const GroupDetails = ({ group, reload }) => {
   };
 
   const handleChangeStatus = async (memberId) => {
-    console.log(rank);
-    console.log("handleChangeStatus has been called");
     await changeStatus(group.id, memberId, rank);
-    // console.log(`${group} member ${member} will now have the rank of ${rank}`);
+    handleGetMembers(group.id);
   };
 
   useEffect(() => {
@@ -102,7 +100,6 @@ const GroupDetails = ({ group, reload }) => {
                       >
                         <option value="admin">Admin</option>
                         <option value="member">Member</option>
-                        <option value="stranger">Stranger</option>
                         <option value="banned">Banned</option>
                       </select>
                       <button onClick={() => handleChangeStatus(m.member_id)}>
