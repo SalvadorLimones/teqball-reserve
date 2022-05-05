@@ -25,8 +25,6 @@ const ListGroup = () => {
 
   return (
     <div className="ListGroup">
-      {/* <button onClick={() => listAllGroups()}>LIST GROUPS</button> */}
-      {/* {groupResponse && <h2>Groups</h2>} */}
       <h2>Groups</h2>
       {groupResponse &&
         groupResponse.map((group, i) => (
