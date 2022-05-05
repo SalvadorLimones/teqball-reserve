@@ -39,12 +39,13 @@ const GroupListItem = ({group, reload}) => {
     <div>
         {/* <button onClick={() => console.log(group)}>click here</button> */}
         {/* {group.status === 'owner' && <button onClick={() => handleGetMembers(group.id)}>requests</button>} */}
-        Group:{group.name} Your status:{group.status} {group.status === 'stranger' && <button onClick={() => handleJoin()}>JOIN</button>} 
-        {
+        Group:{group.name} Your status:{group.status} 
+        {/* {group.status === 'stranger' && <button onClick={() => handleJoin()}>JOIN</button>}  */}
+        {/* {
             (group.status === 'member' || group.status === 'admin' || group.status === 'pending') && <button onClick={() => handleLeave()}>LEAVE</button>
-        }
+        } */}
         <button onClick={() => setShowDetails(!showDetails)}>open group</button>
-        {showDetails && <GroupDetails group={group}/>}
+        {showDetails && <GroupDetails group={group} reload={reload}/>}
         {/* {members && members.map((m, i) => m.member_name && <div key={i}>{m.member_name} {m.role} {m.role === 'pending' && <div><button onClick={() => handleAccept(m.member_id)}>accept</button><button onClick={() => handleReject(m.member_id)}>reject</button></div>}</div>)} */}
     </div>
   )

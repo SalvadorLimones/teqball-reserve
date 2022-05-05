@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getMembers, acceptUser, refuseUser } from '../api/groupActions';
+import { getMembers, acceptUser, refuseUser, joinGroup, leaveGroup } from '../api/groupActions';
 
-const GroupDetails = ({group}) => {
+const GroupDetails = ({group, reload}) => {
     const [members, setMembers] = useState([]);
 
     const handleGetMembers = async (id) => {
@@ -20,9 +20,21 @@ const GroupDetails = ({group}) => {
         // handleGetMembers(group.id);
     }
 
+    const handleJoin = async () => {
+        console.log('handlejoin has been called')
+        await joinGroup(group.id);
+        reload();
+    }
+
+    const handleLeave = async () => {
+        console.log('handleleave has been called');
+        await leaveGroup(group.id);
+        reload();
+    }
+
     useEffect(() => {
         console.log(group)
-        handleGetMembers(group.id)
+        if (group.status !== 'stranger') handleGetMembers(group.id)
         console.log(members)
     }, [])
 
@@ -31,12 +43,14 @@ const GroupDetails = ({group}) => {
         <h2>{group.name}</h2>
         <h4>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cumque, modi ex, harum ipsam alias sunt tenetur temporibus, voluptas fuga in porro? Ab quis, exercitationem ad maxime quas incidunt optio assumenda?</h4>
         <p>Your role in this group: {group.status}</p>
-        {group.status === 'stranger' && <div>
-            <p>this button doesn't work yet, use the one one the groups list please</p><button onClick={() => console.log('this should work as the join button')}>JOIN</button>
-        </div>}
-        {((group.status === 'owner') || (group.status === 'admin') || (group.status === 'member')) && <div className='GroupDetails-members'>
+        {group.status === 'stranger' && <button onClick={() => handleJoin()}>JOIN</button>}
+        {
+            (group.status === 'member' || group.status === 'admin' || group.status === 'pending') && <button onClick={() => handleLeave()}>LEAVE</button>
+        }
+        {((group.status === 'owner') || (group.status === 'admin') || (group.status === 'member')) && 
+        <div className='GroupDetails-members'>
             <h5>Members</h5>
-            {members && members.map((m) => <p>{m.member_name} {(m.role === 'pending' && ((group.status === 'owner') || (group.status === 'admin'))) && <div><button onClick={() => handleAccept(group.id)}>accept</button><button onClick={() => handleReject(group.id)}>reject</button></div>}</p>)}
+            {members && members.map((m, i) => <div key={i}>{m.member_name} {(m.role === 'pending' && ((group.status === 'owner') || (group.status === 'admin'))) && <div><button onClick={() => handleAccept(group.id)}>accept</button><button onClick={() => handleReject(group.id)}>reject</button></div>}</div>)}
         </div>}
     </div>
   )
