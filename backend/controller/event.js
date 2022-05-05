@@ -20,9 +20,9 @@ const  apiRegister = async (req, res, next) => {
 }
 
 const apiEventList = async (req, res, next) => {
-   if (!req.query.group_id) return res.sendStatus(401);
+   if (!req.body.group_id) return res.sendStatus(401);
    try {
-      const eventList = await EventService.eventList(req.query.group_id);
+      const eventList = await EventService.eventList(req.body.group_id);
       res.send(eventList);
    } catch (error) {
       console.log(error);
