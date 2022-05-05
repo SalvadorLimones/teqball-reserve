@@ -4,12 +4,15 @@ import jwt_decode from "jwt-decode";
 
 const Navbar = () => {
   const [loggedin, setLoggedin] = useState(false);
+  const [userName, setUserName] = useState("");
 
   const isLoggedIn = async () => {
     const token = localStorage.getItem("token");
     const decoded = jwt_decode(token);
-    console.log("CHECK", decoded);
-    if (token) setLoggedin(true);
+    if (token) {
+      setUserName(decoded.username);
+      setLoggedin(true);
+    }
   };
 
   useEffect(() => {
@@ -45,15 +48,18 @@ const Navbar = () => {
           </Link>
         </>
       ) : (
-        <Link
-          to="/"
-          onClick={() => localStorage.clear()}
-          className="navbar-btn"
-        >
-          <div className="navbar-btn">
-            <p>LOGOUT</p>
-          </div>
-        </Link>
+        <>
+          <Link
+            to="/"
+            onClick={() => localStorage.clear()}
+            className="navbar-btn"
+          >
+            <div className="navbar-btn">
+              <p>LOGOUT</p>
+            </div>
+          </Link>
+          <h6>Hi {userName}, you're logged in!</h6>
+        </>
       )}
     </div>
   );
