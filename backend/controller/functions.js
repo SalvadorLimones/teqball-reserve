@@ -157,6 +157,7 @@ const getGrouplist = async (id) => {
     groupList.push({
       id: group.id,
       name: group.name,
+      description: group.description,
       status: setStatus(group.members, id),
     });
   }
@@ -209,6 +210,8 @@ const acceptOrRefuse = async (groupId, userId, deed, newStatus) => {
         member.role = "member";
       }
     });
+    console.log(group);
+    console.log("EDDIG JÓ!!");
     group.save();
     return true;
   }
