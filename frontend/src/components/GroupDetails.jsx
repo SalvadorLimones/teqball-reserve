@@ -115,7 +115,11 @@ const GroupDetails = ({ group, reload }) => {
         </div>
       )}
       <div>
-        <Events group_id={group.id} />
+        {(group.status === "owner" ||
+          group.status === "admin" ||
+          group.status === "member") && (
+          <Events group_id={group.id} my_status={group.status} />
+        )}
       </div>
     </div>
   );
