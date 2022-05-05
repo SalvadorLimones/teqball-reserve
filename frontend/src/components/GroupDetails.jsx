@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getMembers, acceptUser, refuseUser, joinGroup, leaveGroup } from '../api/groupActions';
+import { getMembers, acceptUser, refuseUser, joinGroup, leaveGroup, changeStatus} from '../api/groupActions';
 
 const GroupDetails = ({group, reload}) => {
     const [members, setMembers] = useState([]);
+    const [rank, setRank] = useState('');
 
     const handleGetMembers = async (id) => {
         setMembers(await getMembers(id));
@@ -32,16 +33,22 @@ const GroupDetails = ({group, reload}) => {
         reload();
     }
 
+    const handleChangeStatus = async (memberId) => {
+        console.log(rank);
+        console.log('handleChangeStatus has been called');
+        await changeStatus(group.id, memberId, rank);
+        // console.log(`${group} member ${member} will now have the rank of ${rank}`);
+    }
+
     useEffect(() => {
         console.log(group)
-        if (group.status !== 'stranger') handleGetMembers(group.id)
+        if ((group.status !== 'stranger') && (group.status !== 'banned')) handleGetMembers(group.id)
         console.log(members)
     }, [])
 
   return (
     <div className='GroupDetails'>
         <h2>{group.name}</h2>
-        <h4>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cumque, modi ex, harum ipsam alias sunt tenetur temporibus, voluptas fuga in porro? Ab quis, exercitationem ad maxime quas incidunt optio assumenda?</h4>
         <p>Your role in this group: {group.status}</p>
         {group.status === 'stranger' && <button onClick={() => handleJoin()}>JOIN</button>}
         {
@@ -51,7 +58,24 @@ const GroupDetails = ({group, reload}) => {
         {((group.status === 'owner') || (group.status === 'admin') || (group.status === 'member')) && 
         <div className='GroupDetails-members'>
             <h5>Members</h5>
-            {members && members.map((m, i) => <div key={i}>{m.member_name} {(m.role === 'pending' && ((group.status === 'owner') || (group.status === 'admin'))) && <div><button onClick={() => handleAccept(m.member_id)}>accept</button><button onClick={() => handleReject(m.member_id)}>reject</button></div>}</div>)}
+            {members && members.map((m, i) => <div key={i}>
+                {m.role !== 'owner' && `${m.member_name} - rank: ${m.role}`} {(m.role === 'pending' && ((group.status === 'owner') || (group.status === 'admin'))) && 
+                    <div>
+                        <button onClick={() => handleAccept(m.member_id)}>accept</button><button onClick={() => handleReject(m.member_id)}>reject</button>
+                    </div>}
+                {((group.status === 'owner') && (m.role !== 'owner') && (m.role !== 'pending')) && 
+                    <div>
+                        <p>change the rank of this user: </p>
+                        <select name="setrank" id="setrank" onChange={(e) => setRank(e.target.value)}>
+                            <option value="admin">Admin</option>
+                            <option value="member">Member</option>
+                            <option value="stranger">Stranger</option>
+                            <option value="banned">Banned</option>
+                        </select>
+                        <button onClick={() => handleChangeStatus(m.member_id)}>change rank</button>
+                    </div>}
+                </div>)}
+                
         </div>}
     </div>
   )
