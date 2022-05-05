@@ -33,10 +33,12 @@ const apiEventList = async (req, res, next) => {
 const apiConnectToEvent = async (req, res, next) => {
   if (!req.body.event_id) return res.sendStatus(401);
   console.log(req.user_id);
+  console.log("USERNAME:", req.username);
   try {
     const event = await EventService.connectToEvent(
       req.body.event_id,
-      req.user_id
+      req.user_id,
+      req.username
     );
     if (event) {
       res.sendStatus(200);

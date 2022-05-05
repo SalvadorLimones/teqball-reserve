@@ -35,7 +35,7 @@ const Events = ({ group_id, my_status }) => {
     const token = localStorage.getItem("token");
     const decode = jwt_decode(token);
     setMyId(decode.user_id);
-    console.log("MIID:", myId);
+    console.log("MIID:", decode);
   };
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const Events = ({ group_id, my_status }) => {
             <ul>
               Participants:
               {event.participants.map((participant, i) => (
-                <li key={i}>{participant.id}</li>
+                <li key={i}>{participant.name}</li>
               ))}
             </ul>
             {JSON.stringify(event.participants).includes(myId) ? (

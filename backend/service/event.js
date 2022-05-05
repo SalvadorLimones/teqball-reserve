@@ -5,26 +5,27 @@ const findGroupById = async (id) => {
     const existingGroup = await Group.findById(id);
     return existingGroup;
   } catch (error) {
-    console.log(`Could not find group ${error}`)
+    console.log(`Could not find group ${error}`);
   }
-}
+};
 
 const saveEvent = async (eventdata) => {
   const { name, venue, date } = eventdata;
   try {
-    const event = await Group.findByIdAndUpdate(eventdata.group_id, 
-      { $push: {
+    const event = await Group.findByIdAndUpdate(eventdata.group_id, {
+      $push: {
         events: {
           name: name,
           venue: venue,
-          date: date
-        }
-      }});
+          date: date,
+        },
+      },
+    });
     return event;
   } catch (error) {
-    console.log(`Could not save event ${error}`)
+    console.log(`Could not save event ${error}`);
   }
-}
+};
 
 const eventList = async (group_id) => {
   try {
@@ -34,53 +35,57 @@ const eventList = async (group_id) => {
     console.log(error);
     return [];
   }
-}
+};
 
-const connectToEvent = async (event_id, user_id) => {
+const connectToEvent = async (event_id, user_id, username) => {
   console.log(user_id);
   try {
     const updated = await Group.findOneAndUpdate(
       {
-        'events._id': { _id: event_id}
+        "events._id": { _id: event_id },
       },
       {
-        "$push": {
-          "events.$[a].participants": { id: user_id }
-        }
+        $push: {
+          "events.$[a].participants": { id: user_id, name: username },
+        },
       },
       {
-        "new": true,
-        "arrayFilters": [
-          { "a._id": event_id }
-        ]
+        new: true,
+        arrayFilters: [{ "a._id": event_id }],
       }
     );
     return updated;
   } catch (error) {
-    console.log(`Could not save connect to event ${error}`)
+    console.log(`Could not save connect to event ${error}`);
   }
-}
+};
 
 const disconnectFromEvent = async (event_id, user_id) => {
   console.log(user_id);
   try {
     const updated = await Group.findOneAndUpdate(
       {
-        'events._id': { _id: event_id}
+        "events._id": { _id: event_id },
       },
       {
         $pull: {
-          "events.$[].participants": { id: user_id }
-        }
+          "events.$[].participants": { id: user_id },
+        },
       },
       {
-        "new": true
+        new: true,
       }
     );
     return updated;
   } catch (error) {
-    console.log(`Could not save disconnect to event ${error}`)
+    console.log(`Could not save disconnect to event ${error}`);
   }
-}
+};
 
-module.exports = { findGroupById, saveEvent, eventList, connectToEvent, disconnectFromEvent }
+module.exports = {
+  findGroupById,
+  saveEvent,
+  eventList,
+  connectToEvent,
+  disconnectFromEvent,
+};
