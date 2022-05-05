@@ -1,20 +1,21 @@
 const axios = require("axios");
 
-export const listEvents = async (userId, groupId, eventId) => {
+export const listEvents = async (group_id) => {
+  console.log("GROUPID:", group_id);
   const token = localStorage.getItem("token");
   if (!token) window.alert("Please log in first");
-  if (token && userId && groupId && eventId) {
+  if (token && group_id) {
     const requestBody = {
       token: token,
-      groupId: groupId,
-      userId: userId,
-      eventId: eventId,
+      group_id: group_id,
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/event/list", {
-        requestBody,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/event/list",
+
+        requestBody
+      );
       return response;
     } catch (error) {
       console.log("something has gone wrong! ", error);
