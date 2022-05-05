@@ -1,31 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { listGroups } from "../api/listGroups";
-import { joinGroup } from "../api/groupActions";
-import { leaveGroup } from "../api/groupActions";
-import { getMembers } from "../api/groupActions";
+import GroupListItem from "./GroupListItem";
 
 const ListGroup = () => {
   const [groupResponse, setGroupResponse] = useState(null);
+  const [reload, setReload] = useState(false);
+
+  const rerender = () => {
+    console.log('rerender has been called')
+    setReload(!reload)
+  }
 
   const listAllGroups = async () => {
+    console.log('listallgroups has been called')
     const res = await listGroups();
     // console.log(res.data[0].name);
     setGroupResponse(res.data);
+    console.log('groupResponse should be different now');
   };
+
+  useEffect(() => {
+    listAllGroups()
+  }, [reload])
 
   return (
     <div className="ListGroup">
-      <button onClick={() => listAllGroups()}>LIST GROUPS</button>
-      {groupResponse && <h2>Groups</h2>}
+      {/* <button onClick={() => listAllGroups()}>LIST GROUPS</button> */}
+      {/* {groupResponse && <h2>Groups</h2>} */}
+      <h2>Groups</h2>
+      <h3>{reload ? 'true' : 'false'}</h3>
       {groupResponse &&
         groupResponse.map((group, i) => (
-          <div key={i}>
-            {group.status === 'owner' && <button onClick={() => getMembers(group.id)}>Members</button>}
-            Group:{group.name} Your status:{group.status} {group.status === 'stranger' && <button onClick={() => joinGroup(group.id)}>JOIN</button>} 
-            {
-              (group.status === 'member' || group.status === 'admin' || group.status === 'pending') && <button onClick={() => leaveGroup(group.id)}>LEAVE</button>
-            }
-          </div>
+          <GroupListItem key={i} group={group} reload={rerender}/>
         ))}
     </div>
   );

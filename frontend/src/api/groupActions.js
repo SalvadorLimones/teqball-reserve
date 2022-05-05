@@ -54,7 +54,8 @@ export const getMembers = async (groupId) => {
         const requestBody = { token: token, groupId: groupId };
         try { 
             const response = await axios.post("http://localhost:5000/api/group/users", requestBody);
-            return response;
+            console.log(response.data)
+            return response.data;
         } catch (error) {
             console.log('something has gone wrong fetching group members! ', error);
             return error;
