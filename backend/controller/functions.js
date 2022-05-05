@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const User = require("../model/user");
 const Group = require("../model/group");
+const jwt = require("jsonwebtoken");
 
 // for registration and reset routes:
 const sendEmail = async (token, user, type) => {
@@ -71,7 +72,6 @@ const confirmUser = async (username) => {
 
 //for group route:
 const verifyToken = async (token) => {
-  console.log("Verification");
   try {
     const decoded = await jwt.verify(token, process.env.TOKEN_KEY);
     return decoded;
@@ -147,6 +147,7 @@ const removeMember = async (user, groupId) => {
 
 //for group route:
 const getGrouplist = async (id) => {
+  console.log("ID:", id);
   const groupList = [];
   const groups = await Group.find();
   const setStatus = (members, id) => {
@@ -209,7 +210,8 @@ const acceptOrRefuse = async (groupId, userId, deed, newStatus) => {
         member.role = "member";
       }
     });
-    group.save();
+    console.log("GROUP: ", group);
+    //group.save();
     return true;
   }
 
