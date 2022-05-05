@@ -70,6 +70,16 @@ const confirmUser = async (username) => {
 };
 
 //for group route:
+const verifyToken = async (token) => {
+  try {
+    const decoded = await jwt.verify(token, process.env.TOKEN_KEY);
+    return decoded;
+  } catch (error) {
+    return false;
+  }
+};
+
+//for group route:
 const storeGroupData = async (user, name, description) => {
   try {
     Group.create({
@@ -155,10 +165,6 @@ const getGrouplist = async (id) => {
 
 //for group route:
 const checkEligible = async (user, groupId, deed, newStatus) => {
-  console.log("USER: ", user);
-  console.log("groupId: ", groupId);
-  console.log("DEED: ", deed);
-  console.log("newStatus: ", newStatus);
   const group = await Group.findOne({ _id: groupId });
   if (!group) return false;
 
@@ -237,6 +243,7 @@ module.exports = {
   checkAlreadyRegistered,
   storeUserData,
   confirmUser,
+  verifyToken,
   storeGroupData,
   getGrouplist,
   addNewMember,
