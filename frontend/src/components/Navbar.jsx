@@ -23,24 +23,27 @@ const Navbar = () => {
           <p>HOMEPAGE</p>
         </div>
       </Link>
-      <Link to="/register" className="navbar-btn">
-        <div>
-          <p>REGISTER</p>
-        </div>
-      </Link>
-      {loggedin &&
+
+      {loggedin && (
         <Link to="/groups" className="navbar-btn">
           <div className="navbar-btn">
             <p>GROUPS</p>
           </div>
         </Link>
-      }
+      )}
       {!loggedin ? (
-        <Link to="/login" className="navbar-btn">
-          <div className="navbar-btn">
-            <p>LOGIN</p>
-          </div>
-        </Link>
+        <>
+          <Link to="/register" className="navbar-btn">
+            <div>
+              <p>REGISTER</p>
+            </div>
+          </Link>
+          <Link to="/login" className="navbar-btn">
+            <div className="navbar-btn">
+              <p>LOGIN</p>
+            </div>
+          </Link>
+        </>
       ) : (
         <Link
           to="/"
