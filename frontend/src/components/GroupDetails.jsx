@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getMembers, acceptUser, refuseUser, joinGroup, leaveGroup, changeStatus} from '../api/groupActions';
+import Events from './Events'
 
 const GroupDetails = ({group, reload}) => {
     const [members, setMembers] = useState([]);
@@ -77,8 +78,11 @@ const GroupDetails = ({group, reload}) => {
                 </div>)}
                 
         </div>}
+        <div>
+            <Events />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default GroupDetails
+export default GroupDetails;
