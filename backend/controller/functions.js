@@ -71,6 +71,7 @@ const confirmUser = async (username) => {
 
 //for group route:
 const verifyToken = async (token) => {
+  console.log("Verification");
   try {
     const decoded = await jwt.verify(token, process.env.TOKEN_KEY);
     return decoded;
