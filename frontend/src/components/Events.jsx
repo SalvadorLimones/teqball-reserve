@@ -5,13 +5,8 @@ import jwt_decode from "jwt-decode";
 
 const Events = ({ group_id, my_status }) => {
   const [eventResponse, setEventResponse] = useState(null);
-  const [reload, setReload] = useState(false);
   const [myId, setMyId] = useState("");
-
-  const rerender = () => {
-    console.log("rerender has been called");
-    setReload(!reload);
-  };
+  const [render, setRender] = useState(false);
 
   const listTheEvents = async (group_id) => {
     const res = await listEvents(group_id);
@@ -20,15 +15,15 @@ const Events = ({ group_id, my_status }) => {
   };
 
   const handleJoinEvent = async (eventId) => {
-    console.log("eventId is ", eventId);
     const res = await joinEvent(eventId);
     console.log(res);
+    setRender(!render);
   };
 
   const handleLeaveEvent = async (eventId) => {
-    console.log("eventId is ", eventId);
     const res = await leaveEvent(eventId);
     console.log(res);
+    setRender(!render);
   };
 
   const getMyId = () => {
@@ -42,6 +37,10 @@ const Events = ({ group_id, my_status }) => {
     getMyId();
   }, []);
 
+  useEffect(() => {
+    listTheEvents(group_id);
+  }, [render]);
+
   return (
     <div>
       <h3>Events</h3>
@@ -51,7 +50,7 @@ const Events = ({ group_id, my_status }) => {
       <button onClick={() => listTheEvents(group_id)}>List Events</button>
       {eventResponse &&
         eventResponse.map((event, i) => (
-          <div key={i} reload={rerender}>
+          <div key={i}>
             <p>Event name:{event.name}</p>
             <p>Venue: {event.venue}</p>
             <p>Date: {event.date.substring(0, 10)}</p>
