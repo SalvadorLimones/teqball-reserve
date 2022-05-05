@@ -54,10 +54,42 @@ export const getMembers = async (groupId) => {
         const requestBody = { token: token, groupId: groupId };
         try { 
             const response = await axios.post("http://localhost:5000/api/group/users", requestBody);
-            console.log(response.data)
+            console.log(response.data);
             return response.data;
         } catch (error) {
             console.log('something has gone wrong fetching group members! ', error);
+            return error;
+        }
+    }
+}
+
+export const acceptUser = async (groupId, userId) => {
+    const token = localStorage.getItem("token");
+    if (!token) console.log('please sign in first!');
+    if (token) {
+        const requestBody = { token: token, groupId: groupId, userId: userId };
+        try { 
+            const response = await axios.post("http://localhost:5000/api/group/accept", requestBody);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.log('something has gone wrong accepting group member! ', error);
+            return error;
+        }
+    }
+}
+
+export const refuseUser = async (groupId, userId) => {
+    const token = localStorage.getItem("token");
+    if (!token) console.log('please sign in first!');
+    if (token) {
+        const requestBody = { token: token, groupId: groupId, userId: userId };
+        try { 
+            const response = await axios.post("http://localhost:5000/api/group/refuse", requestBody);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.log('something has gone wrong rejecting group member! ', error);
             return error;
         }
     }

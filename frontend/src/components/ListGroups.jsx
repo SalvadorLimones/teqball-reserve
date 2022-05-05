@@ -28,7 +28,6 @@ const ListGroup = () => {
       {/* <button onClick={() => listAllGroups()}>LIST GROUPS</button> */}
       {/* {groupResponse && <h2>Groups</h2>} */}
       <h2>Groups</h2>
-      <h3>{reload ? 'true' : 'false'}</h3>
       {groupResponse &&
         groupResponse.map((group, i) => (
           <GroupListItem key={i} group={group} reload={rerender}/>

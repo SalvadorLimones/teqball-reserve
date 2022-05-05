@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { getMembers, joinGroup, leaveGroup } from '../api/groupActions'
+import { getMembers, joinGroup, leaveGroup, acceptUser, refuseUser } from '../api/groupActions'
 
 const GroupListItem = ({group, reload}) => {
-
-    const [adminTools, setAdminTools] = useState(false);
+    // const [adminTools, setAdminTools] = useState(false);
     const [members, setMembers] = useState([]);
 
     const handleLeave = async () => {
@@ -19,24 +18,37 @@ const GroupListItem = ({group, reload}) => {
     }
 
     const handleGetMembers = async (id) => {
-        setAdminTools(!adminTools)
-        if (adminTools) {
-            setMembers(await getMembers(id))
-        }
-        if (members === []) {
-            console.log(members)
-        }
+        setMembers(await getMembers(id))
+        // setAdminTools(!adminTools)
+        // if (adminTools) {
+        //     setMembers(await getMembers(id))
+        // }
+        // if (members === []) {
+        //     console.log(members)
+        // }
+    }
+
+    const handleAccept = (memberId) => {
+        console.log('accepting join request');
+        acceptUser(group.id, memberId);
+        // handleGetMembers(group.id);
+    }
+
+    const handleReject = (memberId) => {
+        console.log('rejecting join request');
+        refuseUser(group.id, memberId);
+        // handleGetMembers(group.id);
     }
 
   return (
     <div>
         {/* <button onClick={() => console.log(group)}>click here</button> */}
-        {group.status === 'owner' && <button onClick={() => handleGetMembers(group.id)}>Members</button>}
+        {group.status === 'owner' && <button onClick={() => handleGetMembers(group.id)}>requests</button>}
         Group:{group.name} Your status:{group.status} {group.status === 'stranger' && <button onClick={() => handleJoin()}>JOIN</button>} 
         {
             (group.status === 'member' || group.status === 'admin' || group.status === 'pending') && <button onClick={() => handleLeave()}>LEAVE</button>
         }
-        {adminTools && members && members.map((m, i) => m.member_name && <div key={i}>{m.member_name} {m.role}</div>)}
+        {members && members.map((m, i) => m.member_name && <div key={i}>{m.member_name} {m.role} {m.role === 'pending' && <div><button onClick={() => handleAccept(m.member_id)}>accept</button><button onClick={() => handleReject(m.member_id)}>reject</button></div>}</div>)}
     </div>
   )
 }
