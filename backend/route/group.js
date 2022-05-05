@@ -16,7 +16,7 @@ router.post("/create", async (req, res) => {
   const { name, description, token } = req.body;
   if (!(name && description, token)) return res.sendStatus(400);
 
-  const user = await verifyToken(token);
+  const user = verifyToken(token);
   if (!user) return res.sendStatus(401);
 
   const group = await Group.find({ name: req.body.name });
@@ -31,7 +31,7 @@ router.post("/join", async (req, res) => {
   const { token, groupId } = req.body;
   if (!(token && groupId)) return res.sendStatus(400);
 
-  const user = await verifyToken(token);
+  const user = verifyToken(token);
   if (!user) return res.sendStatus(401);
 
   const status = await addNewMember(user, groupId);
@@ -43,7 +43,7 @@ router.post("/leave", async (req, res) => {
   const { token, groupId } = req.body;
   if (!(token && groupId)) return res.sendStatus(400);
 
-  const user = await verifyToken(token);
+  const user = verifyToken(token);
   if (!user) return res.sendStatus(401);
 
   const status = await removeMember(user, groupId);
@@ -55,7 +55,7 @@ router.post("/accept", async (req, res) => {
   const { token, groupId, userId } = req.body;
   if (!(token && groupId && userId)) return res.sendStatus(400);
 
-  const user = await verifyToken(token);
+  const user = verifyToken(token);
   if (!user) return res.sendStatus(401);
 
   const isEligible = await checkEligible(user, groupId, "accept");
@@ -70,7 +70,7 @@ router.post("/refuse", async (req, res) => {
   const { token, groupId, userId } = req.body;
   if (!(token && groupId && userId)) return res.sendStatus(400);
 
-  const user = await verifyToken(token);
+  const user = verifyToken(token);
   if (!user) return res.sendStatus(401);
 
   const isEligible = await checkEligible(user, groupId, "refuse");
@@ -85,7 +85,7 @@ router.post("/users", async (req, res) => {
   const { token, groupId } = req.body;
   if (!(token && groupId)) return res.sendStatus(400);
 
-  const user = await verifyToken(token);
+  const user = verifyToken(token);
   if (!user) return res.sendStatus(401);
 
   const isEligible = await checkEligible(user, groupId, "users");
@@ -100,7 +100,7 @@ router.post("/change-status", async (req, res) => {
   const { token, groupId, userId, newStatus } = req.body;
   if (!(token && groupId && userId && newStatus)) return res.sendStatus(400);
 
-  const user = await verifyToken(token);
+  const user = verifyToken(token);
   if (!user) return res.sendStatus(401);
 
   const isEligible = await checkEligible(user, groupId, "change", newStatus);
@@ -120,7 +120,7 @@ router.get("/list", async (req, res) => {
   const { token } = req.headers;
   if (!token) return res.sendStatus(400);
 
-  const user = await verifyToken(token);
+  const user = verifyToken(token);
   if (!user) return res.sendStatus(401);
 
   const groupList = await getGrouplist(user.user_id);
