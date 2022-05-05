@@ -66,3 +66,23 @@ export const joinEvent = async (eventId) => {
     }
   }
 }
+
+export const leaveEvent = async (eventId) => {
+  const token = localStorage.getItem("token");
+  if (!token) window.alert("Please log in first");
+  if (token && eventId) {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/event/disconnect",
+        {
+          token: token,
+          event_id: eventId,
+        }
+      );
+      return response;
+    } catch (error) {
+      console.log("something has gone wrong! ", error);
+      return error;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { listEvents, joinEvent } from "../api/events";
+import { listEvents, joinEvent, leaveEvent } from "../api/events";
 import CreateEvent from "./CreateEvent";
 
 const Events = ({ group_id }) => {
@@ -20,9 +20,14 @@ const Events = ({ group_id }) => {
   };
 
   const handleJoinEvent = async (eventId) => {
-    console.log('handleJoinEvent has been called');
     console.log('eventId is ', eventId);
     const res = await joinEvent(eventId);
+    console.log(res);
+  }
+
+  const handleLeaveEvent = async (eventId) => {
+    console.log('eventId is ', eventId);
+    const res = await leaveEvent(eventId);
     console.log(res);
   }
 
@@ -35,6 +40,7 @@ const Events = ({ group_id }) => {
         eventResponse.map((event, i) => (
           <div key={i} reload={rerender}>
             {event.name} <button onClick={() => handleJoinEvent(event._id)}>join</button>
+            <button onClick={() => handleLeaveEvent(event._id)}>leave</button>
           </div>
         ))}
     </div>
