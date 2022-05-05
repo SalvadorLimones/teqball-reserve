@@ -1,11 +1,10 @@
 import React, { useState } from "react";
+import { addEvent } from "../api/events";
 
 const CreateEvent = ({ group_id }) => {
   const [eventName, setEventName] = useState("");
   const [eventVenue, setEventVenue] = useState("");
   const [eventDate, setEventDate] = useState("");
-
-  // group_id, name, venue, date;
 
   const clearInputs = () => {
     setEventName("");
@@ -15,7 +14,7 @@ const CreateEvent = ({ group_id }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     clearInputs();
-    console.log(group_id);
+    addEvent(group_id, eventName, eventVenue, eventDate);
   };
 
   return (
