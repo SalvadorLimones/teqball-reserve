@@ -20,13 +20,13 @@ const GroupDetails = ({ group, reload }) => {
   const handleAccept = (memberId) => {
     console.log("accepting join request");
     acceptUser(group.id, memberId);
-    // handleGetMembers(group.id);
+    handleGetMembers(group.id);
   };
 
   const handleReject = (memberId) => {
     console.log("rejecting join request");
     refuseUser(group.id, memberId);
-    // handleGetMembers(group.id);
+    handleGetMembers(group.id);
   };
 
   const handleJoin = async () => {
