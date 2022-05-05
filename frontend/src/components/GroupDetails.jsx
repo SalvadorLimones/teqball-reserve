@@ -47,6 +47,7 @@ const GroupDetails = ({group, reload}) => {
         {
             (group.status === 'member' || group.status === 'admin' || group.status === 'pending') && <button onClick={() => handleLeave()}>LEAVE</button>
         }
+        {group.status === 'banned' && <p>You have been permanently banned from this group. GTFO.</p>}
         {((group.status === 'owner') || (group.status === 'admin') || (group.status === 'member')) && 
         <div className='GroupDetails-members'>
             <h5>Members</h5>
