@@ -52,8 +52,6 @@ router.post("/leave", async (req, res) => {
 //Accept join request:
 router.post("/accept", async (req, res) => {
   const { token, groupId, userId } = req.body;
-  console.log("Group: ", groupId);
-  console.log("User: ", userId);
   if (!(token && groupId && userId)) return res.sendStatus(400);
 
   const user = await verifyToken(token);
@@ -122,7 +120,6 @@ router.get("/list", async (req, res) => {
   if (!token) return res.sendStatus(400);
 
   const user = await verifyToken(token);
-  console.log("USER:", user);
   if (!user) return res.sendStatus(401);
 
   const groupList = await getGrouplist(user.user_id);

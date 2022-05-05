@@ -147,7 +147,6 @@ const removeMember = async (user, groupId) => {
 
 //for group route:
 const getGrouplist = async (id) => {
-  console.log("ID:", id);
   const groupList = [];
   const groups = await Group.find();
   const setStatus = (members, id) => {
@@ -210,8 +209,7 @@ const acceptOrRefuse = async (groupId, userId, deed, newStatus) => {
         member.role = "member";
       }
     });
-    console.log("GROUP: ", group);
-    //group.save();
+    group.save();
     return true;
   }
 
