@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { listEvents } from "../api/events";
+import { listEvents, joinEvent, leaveEvent } from "../api/events";
 import CreateEvent from "./CreateEvent";
 
 const Events = ({ group_id, my_status }) => {
@@ -15,6 +15,18 @@ const Events = ({ group_id, my_status }) => {
     const res = await listEvents(group_id);
     console.log("VISSZAJÖTT: ", res.data);
     setEventResponse(res.data);
+  };
+
+  const handleJoinEvent = async (eventId) => {
+    console.log("eventId is ", eventId);
+    const res = await joinEvent(eventId);
+    console.log(res);
+  };
+
+  const handleLeaveEvent = async (eventId) => {
+    console.log("eventId is ", eventId);
+    const res = await leaveEvent(eventId);
+    console.log(res);
   };
 
   return (
@@ -36,6 +48,9 @@ const Events = ({ group_id, my_status }) => {
                 <li key={i}>{participant.id}</li>
               ))}
             </ul>
+            {event.name}{" "}
+            <button onClick={() => handleJoinEvent(event._id)}>join</button>
+            <button onClick={() => handleLeaveEvent(event._id)}>leave</button>
           </div>
         ))}
     </div>
