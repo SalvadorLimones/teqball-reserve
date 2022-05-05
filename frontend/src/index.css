@@ -1,0 +1,98 @@
+/* CSS reset */
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;400;500;700;900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  outline: none;
+  text-decoration: none;
+  font-family: inherit;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+  display: inline-block;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a img {
+  border: none;
+}
+
+button,
+a {
+  cursor: pointer;
+  color: inherit;
+}
+
+/* App */
+:root {
+  --main-bg-color: hsl(228, 28%, 20%);
+  --blue-text: #22a2bd;
+  --black-text: hsl(228, 28%, 20%);
+  --white-text: #fff;
+  --accent-color: rgb(241, 216, 75);
+  --border-style: 1px dotted;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: none;
+  font-weight: 900;
+  letter-spacing: 0.0625em;
+  text-align: center;
+  margin: .5rem;
+}
+
+.navbar {
+  margin-bottom: 24px;
+}
+
+button {
+  border-color: var(--blue-text);
+  background-color: var(--white-text);
+  color: var(--blue-text);
+  font-weight: bold;
+  height: 3rem;
+  padding: .75rem;
+}
+
+button:hover {
+  color: var(--white-text);
+  background-color: var(--blue-text);
+}
+
+div.ListGroup div {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+div.ListGroup div button {
+  margin: 0 1rem;
+}
+/*# sourceMappingURL=index.css.map */
