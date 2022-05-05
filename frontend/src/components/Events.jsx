@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { listEvents } from "../api/events";
 import CreateEvent from "./CreateEvent";
 
-const Events = () => {
+const Events = ({group_id}) => {
 
   const [eventResponse, setEventResponse] = useState(null);
   const [reload, setReload] = useState(false);
@@ -27,7 +27,7 @@ const Events = () => {
   return (
     <div>
       <h3>Events</h3>
-      <CreateEvent />
+      <CreateEvent group_id={group_id}/>
       <button onClick={listTheEvents}>List Events</button>
       {
         eventResponse && eventResponse.map((event, i) => (
