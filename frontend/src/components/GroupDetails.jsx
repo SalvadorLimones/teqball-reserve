@@ -50,7 +50,7 @@ const GroupDetails = ({group, reload}) => {
         {((group.status === 'owner') || (group.status === 'admin') || (group.status === 'member')) && 
         <div className='GroupDetails-members'>
             <h5>Members</h5>
-            {members && members.map((m, i) => <div key={i}>{m.member_name} {(m.role === 'pending' && ((group.status === 'owner') || (group.status === 'admin'))) && <div><button onClick={() => handleAccept(group.id)}>accept</button><button onClick={() => handleReject(group.id)}>reject</button></div>}</div>)}
+            {members && members.map((m, i) => <div key={i}>{m.member_name} {(m.role === 'pending' && ((group.status === 'owner') || (group.status === 'admin'))) && <div><button onClick={() => handleAccept(m.member_id)}>accept</button><button onClick={() => handleReject(m.member_id)}>reject</button></div>}</div>)}
         </div>}
     </div>
   )
