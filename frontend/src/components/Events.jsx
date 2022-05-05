@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { listEvents, joinEvent, leaveEvent } from "../api/events";
 import CreateEvent from "./CreateEvent";
+import jwt_decode from "jwt-decode";
 
 const Events = ({ group_id, my_status }) => {
   const [eventResponse, setEventResponse] = useState(null);
   const [reload, setReload] = useState(false);
+  const [myId, setMyId] = useState("");
 
   const rerender = () => {
     console.log("rerender has been called");
@@ -13,7 +15,7 @@ const Events = ({ group_id, my_status }) => {
 
   const listTheEvents = async (group_id) => {
     const res = await listEvents(group_id);
-    console.log("VISSZAJÖTT: ", res.data);
+    console.log("VISSZAJÖTT: ", JSON.stringify(res.data[0].participants));
     setEventResponse(res.data);
   };
 
@@ -28,6 +30,17 @@ const Events = ({ group_id, my_status }) => {
     const res = await leaveEvent(eventId);
     console.log(res);
   };
+
+  const getMyId = () => {
+    const token = localStorage.getItem("token");
+    const decode = jwt_decode(token);
+    setMyId(decode.user_id);
+    console.log("MIID:", myId);
+  };
+
+  useEffect(() => {
+    getMyId();
+  }, []);
 
   return (
     <div>
@@ -48,9 +61,11 @@ const Events = ({ group_id, my_status }) => {
                 <li key={i}>{participant.id}</li>
               ))}
             </ul>
-            {event.name}{" "}
-            <button onClick={() => handleJoinEvent(event._id)}>join</button>
-            <button onClick={() => handleLeaveEvent(event._id)}>leave</button>
+            {JSON.stringify(event.participants).includes(myId) ? (
+              <button onClick={() => handleLeaveEvent(event._id)}>leave</button>
+            ) : (
+              <button onClick={() => handleJoinEvent(event._id)}>join</button>
+            )}
           </div>
         ))}
     </div>
