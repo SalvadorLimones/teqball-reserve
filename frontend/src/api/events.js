@@ -7,7 +7,7 @@ export const listEvents = async (userId, groupId, eventId) => {
         const requestBody = { token: token, groupId: groupId, userId: userId, eventId: eventId };
 
         try { 
-            const response = await axios.get("http://localhost:5000/api/event/list", {
+            const response = await axios.post("http://localhost:5000/api/event/list", {
                 requestBody
               })
               console.log(response)
