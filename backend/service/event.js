@@ -37,6 +37,7 @@ const eventList = async (group_id) => {
 }
 
 const connectToEvent = async (event_id, user_id) => {
+  console.log(user_id);
   try {
     const updated = await Group.findOneAndUpdate(
       {
@@ -60,4 +61,26 @@ const connectToEvent = async (event_id, user_id) => {
   }
 }
 
-module.exports = { findGroupById, saveEvent, eventList, connectToEvent }
+const disconnectFromEvent = async (event_id, user_id) => {
+  console.log(user_id);
+  try {
+    const updated = await Group.findOneAndUpdate(
+      {
+        'events._id': { _id: event_id}
+      },
+      {
+        $pull: {
+          "events.$[].participants": { id: user_id }
+        }
+      },
+      {
+        "new": true
+      }
+    );
+    return updated;
+  } catch (error) {
+    console.log(`Could not save disconnect to event ${error}`)
+  }
+}
+
+module.exports = { findGroupById, saveEvent, eventList, connectToEvent, disconnectFromEvent }
