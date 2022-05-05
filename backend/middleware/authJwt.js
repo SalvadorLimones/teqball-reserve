@@ -6,7 +6,7 @@ const verifyToken = async (req, res, next) => {
   if (!token) return res.sendStatus(401);
   try {
     const decoded = await jwt.verify(token, process.env.TOKEN_KEY);
-    req.user_id = decoded._id;
+    req.user_id = decoded.user_id;
     next();
   } catch (error) {
     return res.sendStatus(401);

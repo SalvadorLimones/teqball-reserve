@@ -31,9 +31,9 @@ const apiEventList = async (req, res, next) => {
 
 const  apiConnectToEvent = async (req, res, next) => {
    if (!req.body.event_id) return res.sendStatus(401);
-
+   console.log(req.user_id);
    try {
-      const event = await EventService.connectToEvent(req.body.event_id, req.body.user_id);
+      const event = await EventService.connectToEvent(req.body.event_id, req.user_id);
       if (event) {
          res.sendStatus(200);
       } else {
@@ -44,4 +44,19 @@ const  apiConnectToEvent = async (req, res, next) => {
    }
 }
 
-module.exports = { apiRegister, apiEventList, apiConnectToEvent }
+const  apiDisconnectFromEvent = async (req, res, next) => {
+   if (!req.body.event_id) return res.sendStatus(401);
+
+   try {
+      const event = await EventService.disconnectFromEvent(req.body.event_id, req.user_id);
+      if (event) {
+         res.sendStatus(200);
+      } else {
+         res.sendStatus(400);
+      }
+   } catch (error) {
+      console.log(error);
+   }
+}
+
+module.exports = { apiRegister, apiEventList, apiConnectToEvent, apiDisconnectFromEvent }
