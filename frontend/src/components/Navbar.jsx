@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [loggedin, setLoggedin] = useState(false);
   const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
 
   const isLoggedIn = async () => {
     const token = localStorage.getItem("token");
@@ -51,7 +53,10 @@ const Navbar = () => {
         <>
           <Link
             to="/"
-            onClick={() => localStorage.clear()}
+            onClick={() => {
+              localStorage.clear();
+              navigate("/");
+            }}
             className="navbar-btn"
           >
             <div className="navbar-btn">
