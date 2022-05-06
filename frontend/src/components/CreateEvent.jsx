@@ -19,7 +19,7 @@ const CreateEvent = ({ group_id }) => {
 
   return (
     <div className="login-page">
-      <h1>Login Page</h1>
+      <h3>Register a new event</h3>
       <form className="reg-form" onSubmit={handleSubmit}>
         <label>
           Please choose a name, a venue and pick a date for the event!

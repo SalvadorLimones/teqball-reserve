@@ -30,7 +30,6 @@ const Events = ({ group_id, my_status }) => {
     const token = localStorage.getItem("token");
     const decode = jwt_decode(token);
     setMyId(decode.user_id);
-    console.log("MIID:", decode);
   };
 
   useEffect(() => {
