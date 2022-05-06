@@ -37,57 +37,57 @@ const Register = () => {
   return (
     <div>
       <Navbar />
-      <div className="reg-page">
-        <h1>Registration Page</h1>
+      <div className="regPage">
         {!registered ? (
-          <form className="reg-form" onSubmit={handleSubmit}>
-            <label>register here</label>
-            <div className="input-div">
-              <input
-                type="string"
-                name="username"
-                placeholder="username"
-                minLength={5}
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                  e.target.value.length >= 5 &&
-                    checkValid("username", e.target.value);
-                }}
-                required
-              />
-              {usernameTaken && (
-                <p className="taken-error">username already taken</p>
-              )}
+          <form className="regForm" onSubmit={handleSubmit}>
+            <label>Register!</label>
+            <div className="regInputDiv">
+              <div className="inputDiv">
+                <input
+                  type="string"
+                  name="username"
+                  placeholder="username"
+                  minLength={5}
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    e.target.value.length >= 5 &&
+                      checkValid("username", e.target.value);
+                  }}
+                  required
+                />
+                {usernameTaken && (
+                  <p className="takenError">username already taken</p>
+                )}
+              </div>
+              <div className="inputDiv">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    e.target.value.includes("@") &&
+                      e.target.value.includes(".") &&
+                      checkValid("email", e.target.value);
+                  }}
+                  required
+                />
+                {emailTaken && <p className="taken-error">email already taken</p>}
+              </div>
+              <div className="inputDiv">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  minLength={5}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-            <div className="input-div">
-              <input
-                type="email"
-                name="email"
-                placeholder="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  e.target.value.includes("@") &&
-                    e.target.value.includes(".") &&
-                    checkValid("email", e.target.value);
-                }}
-                required
-              />
-              {emailTaken && <p className="taken-error">email already taken</p>}
-            </div>
-            <div className="input-div">
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                minLength={5}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
             <input type="submit" value="Register" />
           </form>
         ) : (

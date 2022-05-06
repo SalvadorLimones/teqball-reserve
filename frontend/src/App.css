@@ -1,10 +1,55 @@
 * {
-  box-sizing: border-box;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  outline:none;
+  text-decoration:none;
+  outline:none;
+  font-family:inherit;
+  box-sizing:border-box;
 }
+
+ol, ul, li {
+  list-style:none;
+  display:block;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing:0;
+}
+
+a, img {
+  border: none;
+}
+
+button, a {
+  cursor: pointer;
+  color: inherit;
+}
+
+textarea {
+  resize: none;
+}
+
+button, input, textarea {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
 
 .App {
   text-align: center;
   color: #909090;
+}
+
+body {
+  height: 100vh;
+  background-image: url(https://www.wipo.int/export/sites/www/wipo_magazine/images/en/2019/2019_04_art_5_1_845.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .navbar {
@@ -12,7 +57,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 50px;
+  height: 60px;
   border-bottom: 2px solid #909090;
   display: flex;
   align-items: center;
@@ -29,39 +74,79 @@
   font-weight: bold;
 }
 
-.reg-page,
-.login-page {
+.regPage,
+.loginPage {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.reg-form {
+.regForm label, .loginForm label {
+  margin-bottom: 0;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.loginForm, .regForm {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-40%);
+  height: 350px;
   width: 350px;
   padding: 30px;
   display: flex;
   flex-direction: column;
   border: 2px solid #909090;
-  border-radius: 5px;
+  border-radius: 10px;
   background: #f8f8f8;
+  opacity: 0.9;
 }
 
-.input-div {
-  width: 100%;
-  height: 65px;
+.loginInputDiv {
+  height: 100%;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
-.reg-form input {
+.regInputDiv {
+  height: 100%;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.regForm input {
   height: 40px;
   width: 100%;
 
   padding: 10px;
   border: 2px solid #909090;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
-.reg-form label {
-  margin-bottom: 20px;
+.loginForm input {
+  height: 40px;
+  width: 100%;
+
+  padding: 10px;
+  border: 2px solid #909090;
+  border-radius: 10px;
+}
+
+
+.regForm input[type="submit"], .loginForm input[type="submit"] {
+  height: 70px;
+  padding: 0;
+  background-color: #e16330;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bolder;
+  letter-spacing: 0.1em;
+  text-align: center;
 }
 
 .taken-error {
@@ -80,22 +165,92 @@
 }
 
 .reset-button:hover {
-  color: #ff3131;
+  background-color: #6dbc7a;
+  border-radius: 10px;
 }
 
 .CreateGroup {
+  position: sticky;
+  top: 40px;
+  height: 500px;
   width: 350px;
   padding: 30px;
   display: flex;
   flex-direction: column;
-  border: 2px solid #909090;
-  border-radius: 5px;
-  background: #f8f8f8;
+  border: 2px solid #6dbc7a;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  opacity: 0.85;
+}
+
+.CreateGroup h2 {
+  color: #6dbc7a;
+}
+
+.CreateGroup p {
+  visibility: hidden;
+  font-size: 10px;
+}
+
+.CreateGroup input {
+  padding-left: 10px;
+  margin: 10px 0;
+  height: 25px;
+  border: 1px solid #6dbc7a;
+  border-radius: 10px;
+}
+
+.CreateGroup textarea {
+  padding-left: 10px;
+  padding-top: 5px;
+  height: 200px;
+  border: 1px solid #6dbc7a;
+  border-radius: 10px;
+}
+
+.CreateGroup button {
+  margin: 20px auto;
+  border: 1px solid #6dbc7a;
+  border-radius: 25px;
+  color: #6dbc7a;
+}
+
+.CreateGroup button:hover {
+  color: #fff;
+  background-color: #22a2bd;
+  border: 1px solid #22a2bd;
+}
+
+.ListGroup {
+  width: 60vw;
+  margin-bottom: 50px;
+  border-radius: 10px;
+  background-color: #6dbc7a;
+  opacity: 0.9;
+}
+
+.ListGroup h2 {
+  margin-top: 50px;
+  color: #fff;
+}
+
+div .ListGroup div button {
+  border-radius: 15px;
+  margin: 10px auto;
+  margin-bottom: 20px;
 }
 
 .ListGroup div {
-  margin: 10px;
   color: black;
+}
+
+.groupDiv {
+  margin-left: 5%;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  width: 90%;
+  border: 1px solid #f8f8f8;
+  border-radius: 10px;
 }
 
 .groups {
@@ -106,11 +261,74 @@
 .group-actions {
   margin-top: 50px;
   display: flex;
-  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .GroupDetails {
   display: flex;
   flex-direction: column;
-  border: 2px solid #909090;
+}
+
+.events {
+  margin: 0 30px;
+  margin-bottom: 20px;
+  border: 1px dotted #808080cc;
+  background-color: #3d964c;
+  border-radius: 10px;
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.GroupDetails p {
+  margin-bottom: 15px;
+  font-weight: bolder;
+}
+
+.GroupDetails-members h5, .GroupDetails h3 {
+  margin: 20px 30px;
+  padding-top: 10px;
+  border-top: 1px solid grey;
+}
+
+.GroupDetails h2 {
+  margin: 0 45px 20px;
+  padding: 5px;
+  background-color: #808080cc;
+  border-radius: 10px;
+}
+
+.reg-form {
+  margin: 0 30px;
+  border-radius: 10px;
+}
+
+.reg-form label {
+  font-size: 18px;
+}
+.input-div input[type="string"]::placeholder, .input-div input[type="textarea"]::placeholder {
+  color: black;
+  text-align: center;
+}
+
+.input-div {
+  height: 30px;
+  padding-top: 5px;
+}
+
+.input-div, .reg-form input[type="submit"] {
+  margin: 2px 30px;
+  border-radius: 10px;
+  border: 1px solid black;
+  background-color: #f8f8f8;
+}
+
+.reg-form input[type="submit"] {
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.login-page {
+  font-size: 15px;
 }

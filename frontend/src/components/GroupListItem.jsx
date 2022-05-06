@@ -5,8 +5,8 @@ const GroupListItem = ({group, reload}) => {
     const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <div>
-        Group:{group.name} Your status:{group.status} 
+    <div className='groupDiv'>
+        <div>Group: {group.name}</div> <div>Your status: {group.status}</div> 
         <button onClick={() => setShowDetails(!showDetails)}>open group</button>
         {showDetails && <GroupDetails group={group} reload={reload}/>}
     </div>

@@ -27,36 +27,36 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="loginPage">
       <Navbar />
-      <h1>Login Page</h1>
-      <form className="reg-form" onSubmit={handleSubmit}>
-        <label>login here</label>
-        <div className="input-div">
-          <input
-            type="string"
-            name="username"
-            placeholder="username"
-            minLength={5}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+      <form className="loginForm" onSubmit={handleSubmit}>
+        <label>Login</label>
+        <div className="loginInputDiv">
+          <div className="inputDiv">
+            <input
+              type="string"
+              name="username"
+              placeholder="username"
+              minLength={5}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div className="inputDiv">
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+              minLength={5}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
         </div>
-        <div className="input-div">
-          <input
-            type="password"
-            name="password"
-            placeholder="password"
-            minLength={5}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
         <input type="submit" value="Login" />
-        <button className="reset-button" onClick={() => navigate("/reset")}>
+        <button className="resetButton" onClick={() => navigate("/reset")}>
           Forgot your password?
         </button>
       </form>

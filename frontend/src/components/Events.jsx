@@ -48,10 +48,10 @@ const Events = ({ group_id, my_status }) => {
         <CreateEvent group_id={group_id} />
       )}
       <button onClick={() => listTheEvents(group_id)}>List Events</button>
-      {eventResponse &&
+      <div className="events">{eventResponse &&
         eventResponse.map((event, i) => (
           <div key={i}>
-            <p>Event name:{event.name}</p>
+            <p>Event name: {event.name}</p>
             <p>Venue: {event.venue}</p>
             <p>Date: {event.date.substring(0, 10)}</p>
             <ul>
@@ -67,6 +67,7 @@ const Events = ({ group_id, my_status }) => {
             )}
           </div>
         ))}
+        </div>
     </div>
   );
 };

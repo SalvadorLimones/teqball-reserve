@@ -79,19 +79,6 @@ button:hover {
   background-color: var(--blue-text);
 }
 
-div.ListGroup div {
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
 div.ListGroup div button {
   margin: 0 1rem;
 }
