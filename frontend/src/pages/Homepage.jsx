@@ -21,8 +21,10 @@ const Homepage = () => {
       <Navbar />
       <div>
         <h1>Homepage</h1>
-        <h3>Welcome to our weird little website! Facebook is too mainstream, amirite?</h3>
-        <p>Head over to the GROUPS tab and join some groups I guess..? Or don't. Do whatever you want, I'm not your boss.</p>
+        <div className="homepageDiv">
+          <h3>Welcome to our weird little website! Facebook is too mainstream, amirite?</h3>
+          <p>Head over to the GROUPS tab and join some groups I guess..? Or don't. Do whatever you want, I'm not your boss.</p>
+        </div>
       </div>
     </div>
   );

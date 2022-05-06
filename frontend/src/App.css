@@ -332,3 +332,15 @@ div .ListGroup div button {
 .login-page {
   font-size: 15px;
 }
+
+.homepageDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 130px;
+  margin: 300px 140px 0;
+  background-color: #6dbc7a;
+  border-radius: 10px;
+  color: black;
+  opacity: 0.84;
+}
