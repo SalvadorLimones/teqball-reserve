@@ -13,6 +13,7 @@ const resetRouts = require("./route/reset");
 const passwordRouts = require("./route/password");
 const groupRouts = require("./route/group");
 const eventRouts = require("./route/event");
+const googleAuthRouts = require("./route/googleAuth");
 
 mongoose.connect(process.env.CONNECTION_STRING);
 mongoose.connection.once("open", function () {
@@ -32,6 +33,7 @@ app.use("/api/reset", resetRouts);
 app.use("/api/password", passwordRouts);
 app.use("/api/group", groupRouts);
 app.use("/api/event", eventRouts);
+app.use("/api/google-auth", googleAuthRouts);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

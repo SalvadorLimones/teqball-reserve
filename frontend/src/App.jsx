@@ -9,6 +9,7 @@ import Confirm from "./pages/Confirm";
 import PasswordReset1 from "./pages/PasswordReset1";
 import PasswordReset2 from "./pages/PasswordReset2";
 import Groups from "./pages/Groups";
+import GoogleCalendar from "./pages/GoogleCalendar";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="confirm" element={<Confirm />}></Route>
           <Route path="reset" element={<PasswordReset1 />}></Route>
           <Route path="password" element={<PasswordReset2 />}></Route>
+          <Route path="callback" element={<GoogleCalendar />}></Route>
         </Routes>
       </Router>
     </div>

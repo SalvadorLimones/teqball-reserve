@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   token: String,
   confirmed: Boolean,
+  google_access_token: String,
 });
 
 const User = mongoose.model("user", userSchema);
